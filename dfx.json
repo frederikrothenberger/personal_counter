@@ -16,6 +16,11 @@
         "dist/personal_counter_assets/"
       ],
       "type": "assets"
+    },
+    "internet_identity": {
+      "type": "custom",
+      "candid": "internet_identity.did",
+      "wasm": "internet_identity.wasm"
     }
   },
   "defaults": {

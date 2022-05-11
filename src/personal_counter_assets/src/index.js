@@ -1,19 +1,30 @@
-import { personal_counter } from "../../declarations/personal_counter";
+import {personal_counter} from "../../declarations/personal_counter";
 
-document.querySelector("form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const button = e.target.querySelector("button");
+var actor = personal_counter;
+window.onload = async () => document.getElementById("counter").innerText = (await actor.get()).toString();
 
-  const name = document.getElementById("name").value.toString();
+document.getElementById("incrementBtn").addEventListener("click", async () => {
+    await actor.inc();
+    document.getElementById("counter").innerText = (await actor.get()).toString();
+});
 
-  button.setAttribute("disabled", true);
+document.getElementById("loginBtn").addEventListener("click", async () => {
+    const authClient = await AuthClient.create();
+    await new Promise((resolve, reject) => {
+        authClient.login({
+            identityProvider: iiUrl,
+            onSuccess: resolve,
+            onError: reject,
+        });
+    });
 
-  // Interact with foo actor, calling the greet method
-  const greeting = await personal_counter.greet(name);
-
-  button.removeAttribute("disabled");
-
-  document.getElementById("greeting").innerText = greeting;
-
-  return false;
+    const identity = authClient.getIdentity();
+    const agent = new HttpAgent({ identity });
+    actor = Actor.createActor(webapp_idl, {
+        agent,
+        canisterId: webapp_id,
+    });
+    document.getElementById("principal").innerText = await agent.getPrincipal();
+    document.getElementById("counterLabel").innerText = "Your personal counter:";
+    document.getElementById("counter").innerText = (await actor.get()).toString();
 });
