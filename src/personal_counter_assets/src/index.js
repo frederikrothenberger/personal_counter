@@ -4,6 +4,7 @@ import {AuthClient} from "@dfinity/auth-client";
 
 let actor = personal_counter;
 window.onload = updateCounter;
+let authClient;
 
 document.getElementById("incrementBtn").addEventListener("click", async () => {
     await actor.inc();
@@ -11,14 +12,12 @@ document.getElementById("incrementBtn").addEventListener("click", async () => {
 });
 
 document.getElementById("loginBtn").addEventListener("click", async () => {
-    const authClient = await AuthClient.create();
-    await new Promise((resolve, reject) => {
+    authClient = await AuthClient.create();
+    await new Promise((resolve, reject) =>
         authClient.login({
             onSuccess: resolve,
             onError: reject,
-        });
-    });
-
+        }));
     const identity = authClient.getIdentity();
     const agent = new HttpAgent({identity});
     actor = Actor.createActor(idlFactory, {
@@ -31,7 +30,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
 });
 
 document.getElementById("logoutBtn").addEventListener("click", async () => {
-    actor.agent.invalidateIdentity();
+    await authClient.logout();
     actor = personal_counter;
     document.getElementById("counterLabel").innerText = "Anonymous counter:";
     document.getElementById("principal").innerText = 'Anonymous';
