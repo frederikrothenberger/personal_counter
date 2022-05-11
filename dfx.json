@@ -1,6 +1,7 @@
 {
   "canisters": {
     "personal_counter": {
+      "dependencies": "internet_identity",
       "main": "src/personal_counter/main.mo",
       "type": "motoko"
     },
