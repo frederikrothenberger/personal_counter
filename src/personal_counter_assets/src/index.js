@@ -2,7 +2,7 @@ import {idlFactory, personal_counter} from "../../declarations/personal_counter"
 import {Actor, HttpAgent} from "@dfinity/agent";
 import {AuthClient} from "@dfinity/auth-client";
 
-var actor = personal_counter;
+let actor = personal_counter;
 window.onload = updateCounter;
 
 document.getElementById("incrementBtn").addEventListener("click", async () => {
@@ -31,6 +31,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
 });
 
 document.getElementById("logoutBtn").addEventListener("click", async () => {
+    actor.agent.invalidateIdentity();
     actor = personal_counter;
     document.getElementById("counterLabel").innerText = "Anonymous counter:";
     document.getElementById("principal").innerText = 'Anonymous';
