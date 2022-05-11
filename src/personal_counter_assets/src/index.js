@@ -14,7 +14,6 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     const authClient = await AuthClient.create();
     await new Promise((resolve, reject) => {
         authClient.login({
-            identityProvider: window.origin.endsWith('.ic0.app') ? 'https://identity.ic0.app' : `http://localhost:8000?canisterId=${process.env.INTERNET_IDENTITY_CANISTER_ID}`,
             onSuccess: resolve,
             onError: reject,
         });
@@ -22,9 +21,6 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
 
     const identity = authClient.getIdentity();
     const agent = new HttpAgent({identity});
-    if (!window.origin.endsWith('.ic0.app')) {
-        await agent.fetchRootKey();
-    }
     actor = Actor.createActor(idlFactory, {
         agent,
         canisterId: process.env.PERSONAL_COUNTER_CANISTER_ID,

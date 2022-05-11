@@ -3,8 +3,10 @@ import Principal "mo:base/Principal";
 
 actor Counter {
 
-    // list of counter values for all Principals
+    // map of counter values for all Principals
     private var counters = Map.HashMap<Principal, Nat>(10, Principal.equal, Principal.hash);
+
+    // helper method to initialize missing values to 0
     private func getCount(principal: Principal) : Nat {
         let counter = counters.get(principal);
         switch counter {
