@@ -1,7 +1,7 @@
 import Map "mo:base/HashMap";
 import Principal "mo:base/Principal";
 
-actor Counter {
+actor PersonalCounter {
 
     // map of counter values for all Principals
     private var counters = Map.HashMap<Principal, Nat>(10, Principal.equal, Principal.hash);
