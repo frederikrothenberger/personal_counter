@@ -32,7 +32,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
 
 document.getElementById("logoutBtn").addEventListener("click", async () => {
     await authClient.logout();
-    actor.invalidateIdentity();
+    actor = personal_counter;
     document.getElementById("counterLabel").innerText = "Anonymous counter:";
     document.getElementById("principal").innerText = 'Anonymous';
     await updateCounter();
