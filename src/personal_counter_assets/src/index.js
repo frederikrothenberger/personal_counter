@@ -25,13 +25,14 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
         canisterId: process.env.PERSONAL_COUNTER_CANISTER_ID,
     });
     document.getElementById("counterLabel").innerText = "Your personal counter:";
-    document.getElementById("principal").innerText = (await agent.getPrincipal()).toString();
+    document.getElementById("principal").innerText =
+        (await agent.getPrincipal()).toString();
     await updateCounter();
 });
 
 document.getElementById("logoutBtn").addEventListener("click", async () => {
     await authClient.logout();
-    actor = personal_counter;
+    actor.invalidateIdentity();
     document.getElementById("counterLabel").innerText = "Anonymous counter:";
     document.getElementById("principal").innerText = 'Anonymous';
     await updateCounter();
